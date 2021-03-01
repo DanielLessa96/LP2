@@ -38,12 +38,12 @@ class Hello2DFrame extends JFrame {
         int pmx = (x0 + xf) / 2;
         int pmy = (y0 + yf) / 2;
         g2d.fillRect(x0, y0, w, h);
-        int xPoint[] = {pmx , xf - 50 , pmx ,x0 + 50};
-        int yPoint[] = {y0 + 50 , pmy, yf - 50, pmy};
+        int xPoint[] = {pmx,xf - 50, pmx,x0 + 50};
+        int yPoint[] = {y0 + 50,pmy, yf - 50,pmy};
         int npoints = 4;
         g2d.setPaint(Color.yellow);
         g2d.fillPolygon(xPoint, yPoint, npoints);
         g2d.setPaint(Color.blue);
-        g2d.fillOval(3*(pmx + 33)/4, 3*pmy/4, w/4, w/4);
+        g2d.fillOval(3 * (pmx + 33) / 4,(3 * pmy) / 4, w/4, w/4);
     }
 }
