@@ -3,8 +3,8 @@ package figures;
 import java.awt.*;
 
 public class Poly {
-    private int[] xPoint, yPoint;
-    private int npoints;
+    int[] xPoint, yPoint;
+    int npoints;
 
     public Poly (int[] xPoint, int[] yPoint, int npoints) {
         this.xPoint = xPoint;
@@ -12,7 +12,7 @@ public class Poly {
         this.npoints = npoints;
     }
 
-    private void print () {
+    public void print () {
         for(int i = 0; i < npoints ; i++) {
         System.out.format("Poligono de (%d) lados nos pontos (%d,%d).\n",
         this.npoints, this.xPoint[i], this.yPoint[i]);
