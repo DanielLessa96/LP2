@@ -1,6 +1,7 @@
 package figuras;
 
 import java.awt.*;
+import java.awt.Color;
 
 public class Rect {
     int x, y;
