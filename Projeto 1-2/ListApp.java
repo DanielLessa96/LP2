@@ -55,6 +55,9 @@ class ListFrame extends JFrame {
 
                     } else if (evt.getKeyChar() == 'p') {
                             figs.add(new Poly(x,y, w,h,new Color(r1,g1,b1), new Color(r2,g2,b2)));
+                        
+                    } else if(evt.getKeyCode() == KeyEvent.VK_DELETE){
+                        figs.remove(focus);
 
                     } else if(evt.getKeyChar() == '+'){
                         if(focus.w < 350 & focus.h < 350) {
@@ -74,9 +77,7 @@ class ListFrame extends JFrame {
                         focus.x = focus.x - 10;
                     } else if(evt.getKeyCode() == KeyEvent.VK_RIGHT){
                         focus.x = focus.x + 10;
-                    } else if(evt.getKeyCode() == KeyEvent.VK_DELETE){
-                        figs.remove(focus);
-                    } 
+                   } 
                     repaint();
                 }
             }
