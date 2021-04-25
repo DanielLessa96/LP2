@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.awt.Color;
 
+
 import figures.*;
 
 class ListApp {
@@ -18,6 +19,7 @@ class ListFrame extends JFrame {
     ArrayList<Figure> figs = new ArrayList<Figure>();
     Random rand = new Random();
     Figure focus = null;
+    
 
 
     ListFrame () {
@@ -36,22 +38,25 @@ class ListFrame extends JFrame {
                     int y = rand.nextInt(350);
                     int w = rand.nextInt(50);
                     int h = rand.nextInt(50);
-                    int r = rand.nextInt(255);
-                    int g = rand.nextInt(255);
-                    int b = rand.nextInt(255);
-                    int r1 = rand.nextInt(255;
+                    int r1 = rand.nextInt(255);
                     int g1 = rand.nextInt(255);
                     int b1 = rand.nextInt(255);
-
+                    int r2 = rand.nextInt(255);
+                    int g2 = rand.nextInt(255);
+                    int b2 = rand.nextInt(255);
                     if (evt.getKeyChar() == 'r') {
-                        figs.add(new Rect(x,y, w,h,new Color(r,g,b), new Color(r1,g1,b1)));
+                        figs.add(new Rect(x,y, w,h,new Color(r1,g1,b1), new Color(r2,g2,b2)));
+
                     } else if (evt.getKeyChar() == 'e') {
-                        figs.add(new Ellipse(x,y, w,h,new Color(r,g,b), new Color(r1,g1,b1)));
-                    } 
-                    else if(evt.getKeyCode() == KeyEvent.VK_DELETE){
-                    	figs.remove(focus);
-                    } 
-                    else if(evt.getKeyChar() == '+'){
+                        figs.add(new Ellipse(x,y, w,h,new Color(r1,g1,b1), new Color(r2,g2,b2)));
+
+                    } else if (evt.getKeyChar() == 'l') {
+                        figs.add(new Line(x,y, w,h,new Color(r1,g1,b1), new Color(r2,g2,b2)));
+
+                    } else if (evt.getKeyChar() == 'p') {
+                            figs.add(new Poly(x,y, w,h,new Color(r1,g1,b1), new Color(r2,g2,b2)));
+
+                    } else if(evt.getKeyChar() == '+'){
                         if(focus.w < 350 & focus.h < 350) {
                           focus.h = focus.h + 10;
                             focus.w = focus.w + 10;
@@ -69,6 +74,8 @@ class ListFrame extends JFrame {
                         focus.x = focus.x - 10;
                     } else if(evt.getKeyCode() == KeyEvent.VK_RIGHT){
                         focus.x = focus.x + 10;
+                    } else if(evt.getKeyCode() == KeyEvent.VK_DELETE){
+                        figs.remove(focus);
                     } 
                     repaint();
                 }
@@ -78,7 +85,7 @@ class ListFrame extends JFrame {
         this.addMouseMotionListener(
         	new MouseMotionAdapter() {
         		public void mouseDragged(MouseEvent evt) {
-        			focus.x = evt.getX() - (focus.w/2);
+                    focus.x = evt.getX() - (focus.w/2);
         			focus.y = evt.getY() - (focus.h/2);
                     repaint();
                 }
@@ -90,7 +97,17 @@ class ListFrame extends JFrame {
         		public void mousePressed(MouseEvent evt) {
         			focus = null;
         			for(Figure fig: figs) {
-        				if(fig.x <= evt.getX() & fig.y <= evt.getY() & (fig.x + fig.w)>= evt.getX() & (fig.y + fig.h) >= evt.getY()) {       				
+                        if (fig.getClass().equals(Poly.class)){
+                            if((fig.x - fig.w) <= evt.getX() &  (fig.y - fig.h) <= evt.getY() & (fig.x + fig.w)>= evt.getX() & (fig.y + fig.h) >= evt.getY()){
+                                figs.remove(fig);
+                                focus = fig;
+                                figs.add(focus);
+                                repaint();
+                                setCursor(new Cursor(Cursor.HAND_CURSOR));
+                            }
+                        }
+                        if(fig.x <= evt.getX() & fig.y <= evt.getY() & (fig.x + fig.w)>= evt.getX() & (fig.y + fig.h) >= evt.getY()) {       				
+                            figs.remove(fig);
                             focus = fig;
                             figs.add(focus);
                             repaint();
@@ -108,17 +125,21 @@ class ListFrame extends JFrame {
     }
 
     public void paint (Graphics g) {
+
         Graphics2D g2d = (Graphics2D) g;
         super.paint(g);
         for (Figure fig: this.figs) {
             fig.paint(g);
         }
         if (focus != null){
-            g2d.setColor(Color.red);
-            g2d.drawRect(focus.x - 5, focus.y - 5, focus.w + 10, focus.h + 10);
+            if (focus.getClass().equals(Poly.class)){
+                g2d.setColor(Color.red);
+                g2d.drawRect(focus.x - focus.w, focus.y - focus.h, 2*focus.w, 2*focus.h);
+            } else {
+                g2d.setColor(Color.red);
+                g2d.drawRect(focus.x - 5, focus.y - 5, focus.w + 10, focus.h + 10);
+            }
         }
-        focus.paint(g);
-    
     }
 }
 
