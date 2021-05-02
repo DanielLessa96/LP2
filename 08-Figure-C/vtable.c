@@ -85,18 +85,18 @@ int ellipse_area (Ellipse* this) {
 int ellipse_perimetro (Ellipse* this) {
     Figure* sup = (Figure*) this;
     int a = (this->w)/2;
-	int b = (this->h)/2;
-	if (a > b){
-		int c = sqrt(pow(a,2) - pow(b,2));
-		int e = c/a;
-		return 3 * a * (2 - pow(e,2)/2 - (3* pow(e,4))/16 );
-	} else if (a < b){
-		int c = sqrt(pow(b,2) - pow(a,2));
-		int e = c/b;
-		return 3 * b * (2 - pow(e,2)/2 - (3* pow(e,4))/16);
-	} else{
-		return 2 * 3.14 * a;
-	}
+    int b = (this->h)/2;
+    if (a > b){
+	int c = sqrt(pow(a,2) - pow(b,2));
+	int e = c/a;
+	return 3 * a * (2 - pow(e,2)/2 - (3* pow(e,4))/16 );
+    } else if (a < b){
+	int c = sqrt(pow(b,2) - pow(a,2));
+	int e = c/b;
+	return 3 * b * (2 - pow(e,2)/2 - (3* pow(e,4))/16);
+    } else {          
+	return 2 * 3.14 * a;
+ 
 	
 }
 
