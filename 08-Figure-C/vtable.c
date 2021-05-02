@@ -88,7 +88,7 @@ int ellipse_perimetro (Ellipse* this) {
     int b = (this->h)/2;
     if (a > b){
 	int c = sqrt(pow(a,2) - pow(b,2));
-	int e = c/a;
+	int e = c / a;
 	return 3 * a * (2 - pow(e,2)/2 - (3* pow(e,4))/16 );
     } else if (a < b){
 	int c = sqrt(pow(b,2) - pow(a,2));
