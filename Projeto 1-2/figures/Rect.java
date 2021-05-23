@@ -13,12 +13,16 @@ public class Rect extends Figure {
             this.w, this.h, this.x, this.y);
     }
 
-    public void paint (Graphics g) {
+    public void paint (Graphics g, Boolean focused) {
         Graphics2D g2d = (Graphics2D) g;
+        if (focused){
+            g2d.setColor(Color.red);
+            g2d.drawRect(this.x - 2,this.y - 2, this.w + 4,this.h + 4);
+        }
         g2d.setColor(this.fundo);
         g2d.fillRect(this.x, this.y, this.w, this.h);
         g2d.setColor(this.contorno);
         g2d.drawRect(this.x,this.y, this.w,this.h);
     }
-
+    
 }
