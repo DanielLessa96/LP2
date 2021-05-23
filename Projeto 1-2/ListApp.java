@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
@@ -24,9 +25,27 @@ class ListFrame extends JFrame {
 
 
     ListFrame () {
+
+        try {
+            FileInputStream f = new FileInputStream("proj.bin");
+            ObjectInputStream o = new ObjectInputStream(f);
+            this.figs = (ArrayList<Figure>) o.readObject();
+            o.close();
+        } catch (Exception x) {
+            System.out.println("Erro! " +x);
+        }
         this.addWindowListener (
             new WindowAdapter() {
                 public void windowClosing (WindowEvent e) {
+                    try {
+                        FileOutputStream f = new FileOutputStream("proj.bin");
+                        ObjectOutputStream o = new ObjectOutputStream(f);
+                        o.writeObject(figs);
+                        o.flush();
+                        o.close();
+                    } catch (Exception x) {
+                        System.out.println("Erro!, não foi possivel criar o arquivo" +x);
+                    }
                     System.exit(0);
                 }
             }
@@ -35,8 +54,8 @@ class ListFrame extends JFrame {
         this.addKeyListener (
             new KeyAdapter() {
                 public void keyPressed (KeyEvent evt) {
-                    int x = rand.nextInt(350);
-                    int y = rand.nextInt(350);
+                    int x = rand.nextInt(499);
+                    int y = rand.nextInt(499);
                     int w = rand.nextInt(50);
                     int h = rand.nextInt(50);
 
@@ -53,12 +72,12 @@ class ListFrame extends JFrame {
                             figs.add(new Poly(x,y, w,h,colors[rand.nextInt(13)],colors[rand.nextInt(13)]));
 
                     } else if(evt.getKeyChar() == '+'){
-                        if(focus.w < 350 & focus.h < 350){
+                        if(focus.w < 500 && focus.h < 500){
                             focus.h = focus.h + 10;
                             focus.w = focus.w + 10;
                         }
                     } else if(evt.getKeyChar() == '-'){
-                        if(focus.w > 0 & focus.h > 0) {
+                        if(focus.w > 0 && focus.h > 0) {
                             focus.h = focus.h - 10;
                             focus.w = focus.w - 10;
                         }
@@ -99,41 +118,34 @@ class ListFrame extends JFrame {
         		public void mousePressed(MouseEvent evt) {
         			focus = null;
         			for(Figure fig: figs) {
-                        if (fig.getClass().equals(Poly.class)){
-                            if((fig.x - fig.w) <= evt.getX() &  (fig.y - fig.h) <= evt.getY() & (fig.x + fig.w)>= evt.getX() & (fig.y + fig.h) >= evt.getY()){
-                                focus = fig;
-                                setCursor(new Cursor(Cursor.HAND_CURSOR));
-                                repaint();
-                            }
-                        }else if(fig.x <= evt.getX() && fig.y <= evt.getY() && (fig.x + fig.w)>= evt.getX() && (fig.y + fig.h) >= evt.getY()) {       				
+                        if (fig.clicked(evt.getX(), evt.getY())){
                             focus = fig;
                             setCursor(new Cursor(Cursor.HAND_CURSOR));
-                            repaint();
+                            
                         } else {
                             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                            repaint();
+                           
                         }
                     }
                     if (focus!= null) {
                         figs.remove(focus);
                         figs.add(focus);
                     }
+                    repaint();
         		}
         	}
         );
         this.setTitle("Lista de Figuras");
-        this.setSize(1024, 720);
+        this.setSize(500, 500);
     }
 
     public void paint (Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         super.paint(g);
         for (Figure fig: this.figs) {
-            fig.paint(g);
-        }
-        if (focus != null){
-            focus.paintfocus(g);
+            fig.paint(g, fig == focus);
         }
     }
 }
+
 
