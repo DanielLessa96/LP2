@@ -1,41 +1,31 @@
 package figures;
 
-import java.awt.Graphics;
-import java.awt.Polygon;
-import java.awt.geom.Line2D;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Ellipse2D.Double;
 import java.awt.Color;
 
-public abstract class Figure {
-    public int x, y;
-    public int w, h;
-    public Color contorno, fundo;
-    
-    
-    public Figure (int x, int y, int w, int h, Color contorno, Color fundo) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        this.contorno = contorno;
-        this.fundo = fundo;
-    }
-    
-     public void drag (int dx, int dy) {
-        this.x = dx - (this.w)/2;
-        this.y = dy - (this.h)/2;
+public class Ellipse extends Figure {
+    public Ellipse (int x, int y, int w, int h, Color contorno, Color fundo) {
+        super(x,y, w,h, contorno,fundo);
     }
 
-    public abstract void paint (Graphics g);
+    public void print () {
+        System.out.format("Retangulo de tamanho (%d,%d) na posicao (%d,%d).\n",
+            this.w, this.h, this.x, this.y);
+    }
 
-    public void paintfocus (Graphics g) {
-        g.setColor(Color.red);
-        if (this.getClass().equals(Poly.class)){
-            g.setColor(Color.red);
-            g.drawRect(this.x - this.w, this.y - this.h, 2*this.w, 2*this.h);
-        } else {
-            g.setColor(Color.red);
-            g.drawRect(this.x - 5, this.y - 5, this.w + 10, this.h + 10);
+    public void paint (Graphics g, Boolean focused) {
+        Graphics2D g2d = (Graphics2D) g;
+        if (focused){
+            g2d.setColor(Color.red);
+            g2d.draw(new Ellipse2D.Double(this.x - 2, this.y - 2, this.w + 4, this.h + 4));
         }
-        
+        g2d.setColor(this.fundo);
+        g2d.fill(new Ellipse2D.Double(this.x, this.y, this.w, this.h ));
+        g2d.setColor(this.contorno);
+        g2d.draw(new Ellipse2D.Double(this.x, this.y, this.w, this.h));
     }
 }
+
+
