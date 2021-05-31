@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.geom.Line2D;
 import java.io.Serializable;
-import interfaces.IVisible;
+import ivisible.IVisible;
 
 import java.awt.Color;
 
@@ -33,4 +33,3 @@ public abstract class Figure implements IVisible, Serializable {
     }
 
 }
-
